@@ -1,5 +1,6 @@
 $(function() {
-  $('#dino-btn').click(function() {
+  $('#dino-btn').click(function(event) {
+    event.preventDefault();
     let paragraphs = $('#paragraphs').val();
     let words = $('#words').val();
 
@@ -34,4 +35,3 @@ $(function() {
     $('.showDinoIpsum').html("");
   });
 });
-  
