@@ -20,6 +20,7 @@ var lib = require('bower-files')({
 });
 
 var buildProduction = utilities.env.production;
+var babelify = require("babelify");
 
 gulp.task('concatInterface', function(){
 return gulp.src(['./js/*-interface.js'])
@@ -28,10 +29,13 @@ return gulp.src(['./js/*-interface.js'])
 });
 
 gulp.task('jsBrowserify', ['concatInterface'], function() {
-return browserify({ entries: ['./tmp/allConcat.js'] })
-  .bundle()
-  .pipe(source('app.js'))
-  .pipe(gulp.dest('./build/js'));
+  return browserify({ entries: ['./tmp/allConcat.js']})
+    .transform(babelify.configure({
+      presets: ["es2015"]
+    }))
+    .bundle()
+    .pipe(source('app.js'))
+    .pipe(gulp.dest('./build/js'))
 });
 
 gulp.task("minifyScripts", ["jsBrowserify"], function(){
